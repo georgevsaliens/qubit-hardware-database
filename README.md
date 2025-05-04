@@ -109,7 +109,7 @@ conn.close()
 
 ### Creating Visualizations
 
-The repository includes examples of various visualizations you can create:
+The repository includes examples of various visualizations you can create, all included in the "Qubit Database.ipynb" file:
 
 #### Basic Time Series Plots
 
@@ -153,43 +153,6 @@ plt.ylabel('T1 Time (ms, log scale)')
 plt.legend(title='Hardware Type', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 plt.show()
-
-conn.close()
-```
-
-#### Interactive Plots with Plotly
-
-```python
-import plotly.express as px
-
-# Load T1 data with joins
-conn = sqlite3.connect('qubit_data.db')
-query = """
-SELECT m.DOI, m.Hardware_Type, m.Year, m.Number_of_Qubits,
-       t.Value
-FROM T1_Times t
-JOIN main m ON t.DOI = m.DOI
-"""
-df = pd.read_sql_query(query, conn)
-df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
-df['Number_of_Qubits'] = pd.to_numeric(df['Number_of_Qubits'], errors='coerce')
-df = df.dropna(subset=['Year', 'Value'])
-
-# Create interactive plot
-fig = px.scatter(
-    df,
-    x='Year',
-    y='Value',
-    color='Hardware_Type',
-    size='Number_of_Qubits',
-    hover_name='DOI',
-    title='T1 Coherence Time Evolution',
-    labels={'Value': 'T1 Time (ms)', 'Year': 'Year'},
-    height=600
-)
-
-fig.update_yaxes(type="log")
-fig.show()
 
 conn.close()
 ```
@@ -241,14 +204,10 @@ conn.close()
 
 ## Contributing
 
-Contributions to the Qubit Hardware Database are welcome! Here's how you can help:
-
-1. **Add new data**: Update the Google Sheet with data from newly published papers
-2. **Improve data processing**: Enhance the data cleaning and parsing logic
-3. **Add new visualizations**: Create new types of plots or analyses
-4. **Enhance the database schema**: Suggest improvements to how the data is stored
-
-Please submit pull requests with any improvements you make.
+You can add new datapoints to this [Google Sheet]([[url](https://docs.google.com/spreadsheets/d/158mz7xAjDFkdbqp3O21ImE8iuDVOflKmgsl9-1Y5QcE/edit?gid=0#gid=0)](https://docs.google.com/spreadsheets/d/158mz7xAjDFkdbqp3O21ImE8iuDVOflKmgsl9-1Y5QcE/edit?usp=sharing)). Here is how new data should be entered:
+1. For the normalized data columns if there are multiple entries seperate them by a ";" character.
+2. If there are any uncertatnties in measurments add ":" character (e.g. (value:uncertanty);...)
+3. For the name of the Hardware type try and keep it the same as one of the other names in the other columns
 
 ## Future Enhancements
 
