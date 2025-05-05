@@ -222,7 +222,7 @@ You can add new datapoints to this [Google Sheet](https://docs.google.com/spread
 Potential improvements for this project include:
 
 1. **LLM-Based Query Interface**
-   - Create a Large Language Model that uses this database to answer specific questions about this data
+   - Create a Large Language Model that uses this database to answer specific questions
   
 2. **Web Interface**
    - Create a web-based dashboard for exploring the data
