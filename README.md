@@ -204,7 +204,7 @@ conn.close()
 
 ## Contributing
 
-You can add new datapoints to this [Google Sheet]([[url](https://docs.google.com/spreadsheets/d/158mz7xAjDFkdbqp3O21ImE8iuDVOflKmgsl9-1Y5QcE/edit?gid=0#gid=0)](https://docs.google.com/spreadsheets/d/158mz7xAjDFkdbqp3O21ImE8iuDVOflKmgsl9-1Y5QcE/edit?usp=sharing)). Here is how new data should be entered:
+You can add new datapoints to this [Google Sheet](https://docs.google.com/spreadsheets/d/158mz7xAjDFkdbqp3O21ImE8iuDVOflKmgsl9-1Y5QcE/edit?gid=0#gid=0). Here is how new data should be entered:
 1. For the normalized data columns if there are multiple entries seperate them by a ";" character.
 2. If there are any uncertatnties in measurments add ":" character (e.g. (value:uncertanty);...)
 3. For the name of the Hardware type try and keep it the same as one of the other names in the other columns
