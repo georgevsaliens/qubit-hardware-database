@@ -78,8 +78,6 @@ conn.close()
 
 ### Creating Visualizations
 
-The repository includes examples of various visualizations you can create, all included in the "Qubit Database.ipynb" file:
-
 #### Basic Time Series Plots
 
 ```python
@@ -126,89 +124,7 @@ plt.show()
 conn.close()
 ```
 
-#### Comparing Multiple Metrics
-
-```python
-import sqlite3
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-
-conn = sqlite3.connect('qubit_data.db')
-
-# Load both single and two qubit fidelity data
-df_1q = pd.read_sql_query("""
-    SELECT m.DOI, m.Hardware_Type, m.Year, t.Value
-    FROM Single_Qubit_Fidelity t
-    JOIN main m ON t.DOI = m.DOI
-""", conn)
-df_1q['Gate_Type'] = 'Single Qubit'
-
-df_2q = pd.read_sql_query("""
-    SELECT m.DOI, m.Hardware_Type, m.Year, t.Value
-    FROM Two_Qubit_Fidelity t
-    JOIN main m ON t.DOI = m.DOI
-""", conn)
-df_2q['Gate_Type'] = 'Two Qubit'
-
-# Combine the data
-df_fidelity = pd.concat([df_1q, df_2q])
-df_fidelity['Year'] = pd.to_numeric(df_fidelity['Year'], errors='coerce')
-df_fidelity = df_fidelity.dropna(subset=['Year', 'Value'])
-
-# Convert fidelity to error rate (1 - fidelity)
-df_fidelity['Error_Rate'] = 1 - df_fidelity['Value']
-
-# Create figure with two subplots
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 8))
-
-# Plot 1: Original fidelity plot
-sns.lineplot(
-    data=df_fidelity,
-    x='Year',
-    y='Value',
-    hue='Hardware_Type',
-    style='Gate_Type',
-    markers=True,
-    dashes=True,
-    ax=ax1
-)
-ax1.set_title('Gate Fidelities over Time by Hardware Type')
-ax1.set_xlabel('Year')
-ax1.set_ylabel('Gate Fidelity')
-ax1.set_ylim(0, 1.05)  # Set y-axis to show full range
-
-# Plot 2: Log scale error rate
-sns.lineplot(
-    data=df_fidelity,
-    x='Year',
-    y='Error_Rate',
-    hue='Hardware_Type',
-    style='Gate_Type',
-    markers=True,
-    dashes=True,
-    ax=ax2
-)
-ax2.set_yscale('log')  # Set logarithmic scale for y-axis
-ax2.set_title('Gate Error Rates (Log Scale) over Time by Hardware Type')
-ax2.set_xlabel('Year')
-ax2.set_ylabel('Gate Error Rate (1 - Fidelity)')
-ax2.grid(True, which="both", ls="-", alpha=0.2)
-
-# Improve legend positioning and size
-handles, labels = ax2.get_legend_handles_labels()
-fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 0), ncol=5)
-ax1.get_legend().remove()
-ax2.get_legend().remove()
-
-plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.suptitle('Comparison of Gate Performance Metrics', fontsize=16, y=0.98)
-plt.show()
-
-
-conn.close()
-```
+The repository includes examples of various visualizations you can create, all included in the "Qubit Database.ipynb" file.
 
 ## Contributing
 
