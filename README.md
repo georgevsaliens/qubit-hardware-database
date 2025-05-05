@@ -221,30 +221,17 @@ You can add new datapoints to this [Google Sheet](https://docs.google.com/spread
 
 Potential improvements for this project include:
 
-1. **Web Interface**
+1. **LLM-Based Query Interface**
+   - Create a Large Language Model that uses this database to answer specific questions about this data
+  
+2. **Web Interface**
    - Create a web-based dashboard for exploring the data
    - Implement interactive visualizations with filters
 
-2. **Automated Data Collection**
+3. **Automated Data Collection**
    - Develop scripts to scrape papers for relevant metrics
    - Implement natural language processing to extract quantum hardware details
 
-3. **Extended Database Schema**
+4. **Extended Database Schema**
    - Add more metrics (e.g., quantum volume, circuit depth capabilities)
    - Track more details about architecture (e.g., connectivity, control systems)
-
-4. **Error Bar Support**
-   - Improve handling of measurement uncertainties
-   - Implement visualization of error bars on plots
-
-5. **Statistical Analysis**
-   - Add trend line calculations and projections
-   - Implement statistical analysis of hardware improvement rates
-
-6. **Real-time Updates**
-   - Implement automatic database updates when the Google Sheet changes
-   - Create API endpoints for accessing the latest data
-
-7. **Cross-Platform Support**
-   - Package the database for easier installation
-   - Create Docker containers for consistent environments
