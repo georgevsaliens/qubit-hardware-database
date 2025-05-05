@@ -21,7 +21,7 @@ This repository provides tools to access, visualize, and analyze trends in quant
 
 ## Data Source
 
-The database is populated from a Google Sheet that contains manually curated data from research papers. Each entry includes:
+The database is populated from a [Google Sheet](https://docs.google.com/spreadsheets/d/158mz7xAjDFkdbqp3O21ImE8iuDVOflKmgsl9-1Y5QcE/edit?gid=0#gid=0) that contains manually entered data from research papers. Each entry includes:
 
 - DOI (Digital Object Identifier) of the paper
 - Hardware type
@@ -30,37 +30,6 @@ The database is populated from a Google Sheet that contains manually curated dat
 - Performance metrics
 - Summary of the work
 - Additional notes
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.6+
-- Required packages: pandas, sqlite3, matplotlib, seaborn, plotly (for interactive visualizations)
-
-### Installation
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/qubit-hardware-database.git
-   cd qubit-hardware-database
-   ```
-
-2. Install required packages:
-   ```bash
-   pip install pandas sqlite3 matplotlib seaborn plotly
-   ```
-
-3. Run the database generation script:
-   ```bash
-   python qubit_database.py
-   ```
-
-This will:
-- Connect to the Google Sheet data source
-- Process and clean the data
-- Create an SQLite database (`qubit_data.db`)
-- Generate example plots (if run as a script)
 
 ## Using the Database
 
@@ -160,7 +129,12 @@ conn.close()
 #### Comparing Multiple Metrics
 
 ```python
-# Example: Compare gate fidelities
+import sqlite3
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
 conn = sqlite3.connect('qubit_data.db')
 
 # Load both single and two qubit fidelity data
@@ -183,7 +157,13 @@ df_fidelity = pd.concat([df_1q, df_2q])
 df_fidelity['Year'] = pd.to_numeric(df_fidelity['Year'], errors='coerce')
 df_fidelity = df_fidelity.dropna(subset=['Year', 'Value'])
 
-plt.figure(figsize=(12, 8))
+# Convert fidelity to error rate (1 - fidelity)
+df_fidelity['Error_Rate'] = 1 - df_fidelity['Value']
+
+# Create figure with two subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 8))
+
+# Plot 1: Original fidelity plot
 sns.lineplot(
     data=df_fidelity,
     x='Year',
@@ -191,13 +171,41 @@ sns.lineplot(
     hue='Hardware_Type',
     style='Gate_Type',
     markers=True,
-    dashes=True
+    dashes=True,
+    ax=ax1
 )
+ax1.set_title('Gate Fidelities over Time by Hardware Type')
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Gate Fidelity')
+ax1.set_ylim(0, 1.05)  # Set y-axis to show full range
 
-plt.title('Gate Fidelities over Time by Hardware Type')
-plt.xlabel('Year')
-plt.ylabel('Gate Fidelity')
+# Plot 2: Log scale error rate
+sns.lineplot(
+    data=df_fidelity,
+    x='Year',
+    y='Error_Rate',
+    hue='Hardware_Type',
+    style='Gate_Type',
+    markers=True,
+    dashes=True,
+    ax=ax2
+)
+ax2.set_yscale('log')  # Set logarithmic scale for y-axis
+ax2.set_title('Gate Error Rates (Log Scale) over Time by Hardware Type')
+ax2.set_xlabel('Year')
+ax2.set_ylabel('Gate Error Rate (1 - Fidelity)')
+ax2.grid(True, which="both", ls="-", alpha=0.2)
+
+# Improve legend positioning and size
+handles, labels = ax2.get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 0), ncol=5)
+ax1.get_legend().remove()
+ax2.get_legend().remove()
+
+plt.tight_layout(rect=[0, 0.05, 1, 0.95])
+plt.suptitle('Comparison of Gate Performance Metrics', fontsize=16, y=0.98)
 plt.show()
+
 
 conn.close()
 ```
@@ -240,13 +248,3 @@ Potential improvements for this project include:
 7. **Cross-Platform Support**
    - Package the database for easier installation
    - Create Docker containers for consistent environments
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Contributors who helped collect and curate the quantum hardware data
-- Researchers publishing detailed metrics on their quantum hardware implementations
-- Python data science community for the tools that make this analysis possible
