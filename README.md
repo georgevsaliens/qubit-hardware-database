@@ -8,7 +8,7 @@ A comprehensive database tracking the evolution and performance of quantum compu
 
 ## Overview
 
-The Qubit Hardware Database is an open-source project that collects and organizes data on quantum computing hardware from published research papers. The database tracks key performance metrics such as:
+The Qubit Hardware Database is a research project that collects and organizes data on quantum computing hardware from published research papers. The database tracks key performance metrics such as:
 
 - Coherence times (T1, T2)
 - Gate fidelities (single and two-qubit)
