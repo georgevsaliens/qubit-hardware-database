@@ -1,10 +1,10 @@
 # Qubit Hardware Database
 
-A comprehensive database tracking the evolution and performance of quantum computing hardware across different architectures.
+A database of quantum computing hardware performance, pulled by hand from published papers. 101 papers, 2000 to 2024, six hardware platforms.
 
-| ![image](https://github.com/user-attachments/assets/835ceb3e-3261-4f6e-8320-5a0c991cc078) |
-|:--:| 
-| *See example plots in "Qubit Database.ipynb" file* |
+| ![Two qubit gate error rate over time by hardware type](figures/two-qubit-error-rate.png) |
+|:--:|
+| *Two-qubit gate error rate (1 - fidelity), 62 reported measurements across 5 platforms. More plots in `Qubit_Database.ipynb`.* |
 
 ## Overview
 
@@ -30,6 +30,15 @@ The database is populated from a [Google Sheet](https://docs.google.com/spreadsh
 - Performance metrics
 - Summary of the work
 - Additional notes
+
+## Running the notebook
+
+Python 3, with `pandas`, `numpy`, `matplotlib`, `seaborn`, `sqlite3` and `plotly`. Last checked
+against Python 3.13 and pandas 3.0.
+
+**The first code cell deletes `qubit_data.db` and rebuilds it from the Google Sheet.** If you only
+want to query or plot the data that is already committed here, skip that cell and start from the
+"Example Plots" section.
 
 ## Using the Database
 
@@ -124,13 +133,13 @@ plt.show()
 conn.close()
 ```
 
-The repository includes examples of various visualizations you can create, all included in the "Qubit Database.ipynb" file.
+The repository includes examples of various visualizations you can create, all included in `Qubit_Database.ipynb`.
 
 ## Contributing
 
 You can add new datapoints to this [Google Sheet](https://docs.google.com/spreadsheets/d/158mz7xAjDFkdbqp3O21ImE8iuDVOflKmgsl9-1Y5QcE/edit?gid=0#gid=0). Here is how new data should be entered:
-1. For the normalized data columns if there are multiple entries seperate them by a ";" character.
-2. If there are any uncertatnties in measurments add ":" character (e.g. value:uncertanty; ...)
+1. For the normalized data columns, if there are multiple entries separate them by a ";" character.
+2. If there is an uncertainty on a measurement add a ":" character (e.g. `value:uncertainty; value:uncertainty`)
 3. For the name of the Hardware type try and keep it the same format as the other names in the previous columns
 
 ## Future Enhancements
