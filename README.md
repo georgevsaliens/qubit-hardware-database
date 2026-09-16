@@ -4,7 +4,7 @@ A database of quantum computing hardware performance, pulled by hand from publis
 
 | ![Two qubit gate error rate over time by hardware type](figures/two-qubit-error-rate.png) |
 |:--:|
-| *Two-qubit gate error rate (1 - fidelity), 62 reported measurements across 5 platforms. More plots in `Qubit_Database.ipynb`.* |
+| *Two-qubit gate error rate (1 - fidelity), 63 reported measurements across 5 platforms. More plots in `Qubit_Database.ipynb`.* |
 
 ## Overview
 
